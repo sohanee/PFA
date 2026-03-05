@@ -8,7 +8,7 @@
 /* Code here anything you want to test your pfa functions and to show your numerical results */
 int main()
 {
-  if (!init_integration("simpson", 0.1))
+  if (!init_integration("gauss2", 0.1))
   {
     fprintf(stderr, "init_integration failed\n");
     return 2;
