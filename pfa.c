@@ -82,35 +82,7 @@ double PHI(double x)
 	 */
 double optionPrice(Option *option)
 {
-	double sig = option->sig;
-	double k = option->K;
-	double t = option->T;
-	double mu = option->mu;
-	double s0 = option->S0;
-	if (sig <= 0 || t < 0)
-	{
-		if (t == 0)
-		{
-			if (option->type == CALL)
-				return fmax(s0 - k, 0.0);
-			else if (option->type == PUT)
-				return fmax(k - s0, 0.0);
-		}
-		return 0.0;
-	}
-	if (option->type == CALL)
-	{
-		double z = (log(k / s0) - (mu - ((sig * sig) / 2)) * t) / (sig * sqrt(t));
-		double c = s0 * exp(mu * t) * PHI(-z + sig * sqrt(t)) - k * PHI(-z);
-		return c;
-	}
-	else if (option->type == PUT)
-	{
-		double z = (log(k / s0) - (mu - ((sig * sig) / 2)) * t) / (sig * sqrt(t));
-		double p = k * PHI(z) - s0 * exp(mu * t) * PHI(z - sig * sqrt(t));
-		return p;
-	}
-	return 0.0;
+	double z0 = ( ln(K/S0) - (mu - sig²/2) * T ) / (sig * sqrt(T))
 }
 
 /* ===============================================*/
