@@ -138,9 +138,9 @@ double clientCDF_X(InsuredClient *client, double x)
 	if (x <= 0)
 		return 0;
 
-	double sig = client->s;
-	double mu = client->m;
-	return PHI((log(x) - mu) / sig);
+	double s = client->s;
+	double m = client->m;
+	return PHI((log(x) - m) / s);
 }
 
 /* ==========================================================*/
