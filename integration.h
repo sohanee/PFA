@@ -26,14 +26,12 @@ typedef struct{
   size_t n;
   
   double* w;
-  size_t size_w;
 
   double* x;
-  size_t size_x;
 
 } QuadFormula;
 
-struct error_param {
+struct error {
 	double alpha;
 	double beta;
 };
