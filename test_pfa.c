@@ -22,7 +22,6 @@ int main()
 
   printf("\n========================================\n\n");
 
-  // Test cas limites option
   printf(" Cas limites :\n\n");
 
   Option bad1 = {CALL, 100.0, 100.0, 0.0, 0.05, 0.2};
