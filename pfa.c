@@ -83,6 +83,10 @@ double PHI(double x)
 double optionPrice(Option *option)
 {
 	double z0 = ( log(option->K/option->S0) - (option->mu - pow(option->sig,2)/2) * option->T ) / (option->sig * sqrt(option->T))
+	if (option->type == CALL)
+			return option->S0 * exp(option->mu * option->T) * PHI(option->sig * sqrt(option->T) - z0) - option->K * PHI(-z0);
+	else
+			return option->K * PHI(z0) - option->S0 * exp(option->mu * option->T) * PHI(z0 - option->sig * sqrt(option->T));
 }
 
 /* ===============================================*/
