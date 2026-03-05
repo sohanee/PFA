@@ -68,7 +68,7 @@ bool init_integration(char *quadrature, double dt)
 /* Density of the normal distribution */
 double phi(double x)
 {
-	return 0.398942280401433 * exp(-x * x / 2);
+	return (double)(1/(sqrt(2*M_PI))) * exp(-x * x / 2);
 }
 
 /* Cumulative distribution function of the normal distribution */
