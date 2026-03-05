@@ -21,13 +21,16 @@ int main()
   printf("\n\n");
 
   // Test cas limites option
-  printf("Cas limites ===\n");
-  Option bad = {CALL, 100.0, 100.0, 0.0, 0.05, 0.2};
-  printf("T=0 call = %f (attendu: 0.0)\n", optionPrice(&bad));
-  bad = {CALL, 100.0, 100.0, -5.0, 0.05, 0.2};
-  printf("T<0 call = %f (attendu: 0.0)\n", optionPrice(&bad));
-  bad = {CALL, 100.0, 100.0, 1.0, 0.05, 0};
-  printf("sigma <= 0 call = %f (attendu: 0.0)\n", optionPrice(&bad));
+  printf("=== Cas limites ===\n");
+
+  Option bad1 = {CALL, 100.0, 100.0, 0.0, 0.05, 0.2};
+  printf("T=0 call = %f (attendu: 0.0)\n", optionPrice(&bad1));
+
+  Option bad2 = {CALL, 100.0, 100.0, -5.0, 0.05, 0.2};
+  printf("T<0 call = %f (attendu: 0.0)\n", optionPrice(&bad2));
+
+  Option bad3 = {CALL, 100.0, 100.0, 1.0, 0.05, 0.0};
+  printf("sigma=0 call = %f (attendu: 0.0)\n\n", optionPrice(&bad3));
 
   Option opt;
   opt.T = 1;
