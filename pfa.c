@@ -82,20 +82,23 @@ double PHI(double x)
 	 */
 double optionPrice(Option *option)
 {
-	if (option->sig <= 0 || option->T < 0 ){
-		if (option->type == CALL){
-			return fmax(s0 - k, 0.0);
+    if (option->sig <= 0 || option->T < 0){
+        return 0.0;
 		}
-		else if (option->type == PUT){
-			return fmax(k - s0, 0.0);
+    if (option->T == 0) {
+        if (option->type == CALL){
+            return fmax(option->S0 - option->K, 0.0);
+				}
+        else{
+            return fmax(option->K - option->S0, 0.0);
+				}
+    }
+    double z0 = (log(option->K / option->S0) - (option->mu - pow(option->sig, 2) / 2) * option->T) / (option->sig * sqrt(option->T));
+    if (option->type == CALL){
+        return option->S0 * exp(option->mu * option->T) * PHI(option->sig * sqrt(option->T) - z0) - option->K * PHI(-z0);
+		}else{
+        return option->K * PHI(z0) - option->S0 * exp(option->mu * option->T) * PHI(z0 - option->sig * sqrt(option->T));
 		}
-		return 0.0
-	}
-	double z0 = ( log(option->K/option->S0) - (option->mu - pow(option->sig,2)/2) * option->T ) / (option->sig * sqrt(option->T))
-	if (option->type == CALL)
-			return option->S0 * exp(option->mu * option->T) * PHI(option->sig * sqrt(option->T) - z0) - option->K * PHI(-z0);
-	else
-			return option->K * PHI(z0) - option->S0 * exp(option->mu * option->T) * PHI(z0 - option->sig * sqrt(option->T));
 }
 
 /* ===============================================*/
