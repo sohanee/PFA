@@ -88,8 +88,7 @@ double optionPrice(Option *option)
     if (option->T == 0) {
         if (option->type == CALL){
             return fmax(option->S0 - option->K, 0.0);
-				}
-        else{
+				}else{
             return fmax(option->K - option->S0, 0.0);
 				}
     }
