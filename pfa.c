@@ -108,8 +108,9 @@ double optionPrice(Option *option)
 	 */
 double clientPDF_X(InsuredClient *client, double x)
 {
-	if (x <= 0)
+	if (x <= 0){
 		return 0;
+	}
 
 	double s = client->s;
 	double m = client->m;
