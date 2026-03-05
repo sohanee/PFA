@@ -1,7 +1,7 @@
 
 
 // #define GRAPHIC
-
+// je sais pas...
 #define PFA_C
 
 #include "pfa.h"
