@@ -111,10 +111,10 @@ double clientPDF_X(InsuredClient *client, double x)
 	if (x <= 0)
 		return 0;
 
-	double sig = client->s;
-	double mu = client->m;
+	double s = client->s;
+	double m = client->m;
 
-	return (1 / (sig * x)) * phi((log(x) - mu) / sig);
+	return (1 / (s * x)) * phi((log(x) - m) / s);
 }
 
 /* Cumulative distribution function (CDF) of variable X.
