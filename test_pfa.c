@@ -24,9 +24,9 @@ int main()
   printf("Cas limites ===\n");
   Option bad = {CALL, 100.0, 100.0, 0.0, 0.05, 0.2};
   printf("T=0 call = %f (attendu: 0.0)\n", optionPrice(&bad));
-  bad = {CALL, 100.0, 100.0, 0.0, 0.05, 0.2};
+  bad = {CALL, 100.0, 100.0, -5.0, 0.05, 0.2};
   printf("T<0 call = %f (attendu: 0.0)\n", optionPrice(&bad));
-  bad = {CALL, 100.0, 100.0, 0.0, 0.05, 0.2};
+  bad = {CALL, 100.0, 100.0, 1.0, 0.05, 0};
   printf("sigma <= 0 call = %f (attendu: 0.0)\n", optionPrice(&bad));
 
   Option opt;
