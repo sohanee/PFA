@@ -16,8 +16,9 @@ The number of subdivisions will be N such that (b-a)/N ~ dt
 */
 bool init_integration(char *quadrature, double dt)
 {
-	if (!quadrature || dt <= 0)
+	if (quadrature == NULL || dt <= 0){
 		return false;
+	}
 	else if (strcmp(quadrature, "left") == 0)
 	{
 		pfa_dt = dt;
