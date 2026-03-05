@@ -16,9 +16,8 @@ The number of subdivisions will be N such that (b-a)/N ~ dt
 */
 bool init_integration(char *quadrature, double dt)
 {
-	if (quadrature == NULL || dt <= 0){
+	if (!quadrature || dt <= 0)
 		return false;
-	}
 	else if (strcmp(quadrature, "left") == 0)
 	{
 		pfa_dt = dt;
@@ -68,7 +67,7 @@ bool init_integration(char *quadrature, double dt)
 /* Density of the normal distribution */
 double phi(double x)
 {
-	return (double)(1/(sqrt(2*M_PI))) * exp(-x * x / 2);
+	return 0.398942280401433 * exp(-x * x / 2);
 }
 
 /* Cumulative distribution function of the normal distribution */
@@ -82,22 +81,35 @@ double PHI(double x)
 	 */
 double optionPrice(Option *option)
 {
-    if (option->sig <= 0 || option->T < 0){
-        return 0.0;
+	double sig = option->sig;
+	double k = option->K;
+	double t = option->T;
+	double mu = option->mu;
+	double s0 = option->S0;
+	if (sig <= 0 || t < 0)
+	{
+		if (t == 0)
+		{
+			if (option->type == CALL)
+				return fmax(s0 - k, 0.0);
+			else if (option->type == PUT)
+				return fmax(k - s0, 0.0);
 		}
-    if (option->T == 0) {
-        if (option->type == CALL){
-            return fmax(option->S0 - option->K, 0.0);
-				}else{
-            return fmax(option->K - option->S0, 0.0);
-				}
-    }
-    double z0 = (log(option->K / option->S0) - (option->mu - pow(option->sig, 2) / 2) * option->T) / (option->sig * sqrt(option->T));
-    if (option->type == CALL){
-        return option->S0 * exp(option->mu * option->T) * PHI(option->sig * sqrt(option->T) - z0) - option->K * PHI(-z0);
-		}else{
-        return option->K * PHI(z0) - option->S0 * exp(option->mu * option->T) * PHI(z0 - option->sig * sqrt(option->T));
-		}
+		return 0.0;
+	}
+	if (option->type == CALL)
+	{
+		double z = (log(k / s0) - (mu - ((sig * sig) / 2)) * t) / (sig * sqrt(t));
+		double c = s0 * exp(mu * t) * PHI(-z + sig * sqrt(t)) - k * PHI(-z);
+		return c;
+	}
+	else if (option->type == PUT)
+	{
+		double z = (log(k / s0) - (mu - ((sig * sig) / 2)) * t) / (sig * sqrt(t));
+		double p = k * PHI(z) - s0 * exp(mu * t) * PHI(z - sig * sqrt(t));
+		return p;
+	}
+	return 0.0;
 }
 
 /* ===============================================*/
