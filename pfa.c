@@ -173,6 +173,7 @@ static double localProductPDF(double t)
 	 It is called by clientPDF_X1X2
 	 It can also be an argument of integrate_dx (since it has the good signature)
 	 */
+	// A FAIRE 
 static double localPDF_X1X2(double x)
 {
 	localX = x;
@@ -200,6 +201,7 @@ double clientPDF_X1X2(InsuredClient *client, double x)
 	 X1 and X2 are the reimbursements of the two claims from the client (assuming there are
 	 two claims).
 	 */
+		// A FAIRE 
 double clientCDF_X1X2(InsuredClient *client, double x)
 {
 	localClient = client;
@@ -210,6 +212,7 @@ double clientCDF_X1X2(InsuredClient *client, double x)
 /* Cumulative distribution function (CDF) of variable S.
 	 Variable S is the sum of the reimbursements that the insurance company will pay to client.
 	 */
+		// A FAIRE 
 double clientCDF_S(InsuredClient *client, double x)
 {
 	if (x < 0)
