@@ -32,44 +32,63 @@ int main()
   Option bad3 = {CALL, 100.0, 100.0, 1.0, 0.05, 0.0};
   printf("sigma=0 call = %f (attendu: 0.0)\n\n", optionPrice(&bad3));
 
-  // Option opt;
-  // opt.T = 1;
-  // opt.mu = 0;
-  // opt.sig = 0.2;
+  // === Tests optionPrice CALL en fonction de K ===
+    printf("=== Prix Call en fonction de K (S0=100, T=2, mu=0.05, sig=0.02) ===\n");
+    double ks[] = {99, 100, 101, 102, 103};
+    double expected_call[] = {11.5171, 10.5172, 9.51768, 8.51912, 7.52332};
+    for (int i = 0; i < 5; i++) {
+        Option call = {CALL, 100.0, ks[i], 2.0, 0.05, 0.02};
+        printf("K=%.0f : %f (attendu: %f)\n", ks[i], optionPrice(&call), expected_call[i]);
+    }
 
-  // opt.type = CALL;
-  // opt.S0 = 100;
-  // opt.K = 90;
-  // double c = optionPrice(&opt);
-  // double attendu_c = optionPrice(&opt);
-  // printf("  Pour une option de type CALL avec S0=%g, K=%.2g, T=%.2g, mu=%.2g, sig=%.2g:\n", opt.S0, opt.K, opt.T, opt.mu, opt.sig);
-  // printf("  prix calculé = %.5g, valeur attendue = %.5g\n", c, attendu_c);
+    // === Tests optionPrice CALL en fonction de T ===
+    printf("\n=== Prix Call en fonction de T (S0=100, K=101, mu=0.05, sig=0.02) ===\n");
+    double ts[] = {1.8, 1.9, 2.0, 2.1, 2.2};
+    double expected_call_t[] = {8.41857, 8.9667, 9.51768, 10.0715, 10.6281};
+    for (int i = 0; i < 5; i++) {
+        Option call = {CALL, 100.0, 101.0, ts[i], 0.05, 0.02};
+        printf("T=%.1f : %f (attendu: %f)\n", ts[i], optionPrice(&call), expected_call_t[i]);
+    }
 
-  // opt.type = PUT;
-  // opt.S0 = 80;
-  // opt.K = 90;
-  // double p = optionPrice(&opt);
-  // double attendu_p = 12.91;
-  // printf("  Pour une option de type PUT  with S0=%.2g, K=%.2g, T=%.2g, mu=%.2g, sig=%.2g:\n", opt.S0, opt.K, opt.T, opt.mu, opt.sig);
-  // printf("  prix calculé = %.5g, valeur attendue = %.5g\n", p, attendu_p);
+    // === Tests optionPrice PUT en fonction de K ===
+    printf("\n=== Prix Put en fonction de K (S0=100, T=2, mu=0.05, sig=0.02) ===\n");
+    double ks_put[] = {113, 114, 115, 116, 117};
+    double expected_put[] = {2.87264, 3.70203, 4.59834, 5.53979, 6.50911};
+    for (int i = 0; i < 5; i++) {
+        Option put = {PUT, 100.0, ks_put[i], 2.0, 0.05, 0.02};
+        printf("K=%.0f : %f (attendu: %f)\n", ks_put[i], optionPrice(&put), expected_put[i]);
+    }
 
-  // InsuredClient client;
-  // double p_arr[3] = {0.2, 0.5, 0.3};
-  // client.m = 0;
-  // client.s = 1;
-  // client.p = p_arr;
+    // === Tests optionPrice PUT en fonction de T ===
+    printf("\n=== Prix Put en fonction de T (S0=100, K=115, mu=0.05, sig=0.02) ===\n");
+    double expected_put_t[] = {5.61998, 5.10223, 4.59834, 4.11292, 3.65046};
+    for (int i = 0; i < 5; i++) {
+        Option put = {PUT, 100.0, 115.0, ts[i], 0.05, 0.02};
+        printf("T=%.1f : %f (attendu: %f)\n", ts[i], optionPrice(&put), expected_put_t[i]);
+    }
 
-  // double pdf_x1 = clientPDF_X(&client, 1);
-  // double attendu_pdf_x1 = 0.39894;
-  // double cdf_x1 = clientCDF_X(&client, 1);
-  // double attendu_cdf_x1 = 0.5;
-  // printf("  Pour un client avec m=%.2g, s=%.2g, p=[%.2g, %.2g, %.2g]:\n", client.m, client.s, client.p[0], client.p[1], client.p[2]);
-  // printf("  clientPDF_X(1): valeur calculée = %.5g, valeur attendue = %.5g\n", pdf_x1, attendu_pdf_x1);
-  // printf("  clientCDF_X(1): valeur calculée = %.5g, valeur attendue = %.5g\n", cdf_x1, attendu_cdf_x1);
+    // === Tests assurance (m=1, s=1) ===
+    double probs[3] = {0.9, 0.05, 0.05};
+    InsuredClient client = {1.0, 1.0, probs};
 
-  // double cdf_S = clientCDF_S(&client, 1);
-  // double attendu_cdf_S = 0.486;
-  // printf("  clientCDF_S(1): valeur calculée = %.5g, valeur attendue = %.5g\n", cdf_S, attendu_cdf_S);
+    printf("\n=== clientPDF_X1X2 (m=1, s=1) ===\n");
+    double xs[] = {0, 1, 2, 3};
+    double expected_pdf[] = {0, 0.0196294, 0.0726663, 0.101814};
+    for (int i = 0; i < 4; i++) {
+        printf("x=%.0f : %f (attendu: %f)\n", xs[i], clientPDF_X1X2(&client, xs[i]), expected_pdf[i]);
+    }
+
+    printf("\n=== clientCDF_X1X2 (m=1, s=1) ===\n");
+    double expected_cdf[] = {0, 0.00490103, 0.0517347, 0.141439};
+    for (int i = 0; i < 4; i++) {
+        printf("x=%.0f : %f (attendu: %f)\n", xs[i], clientCDF_X1X2(&client, xs[i]), expected_cdf[i]);
+    }
+
+    printf("\n=== clientCDF_S (m=1, s=1, p0=0.9, p1=p2=0.05) ===\n");
+    double expected_s[] = {0.9, 0.908178, 0.921561, 0.934036};
+    for (int i = 0; i < 4; i++) {
+        printf("x=%.0f : %f (attendu: %f)\n", xs[i], clientCDF_S(&client, xs[i]), expected_s[i]);
+    }
 
   return 0;
 }
