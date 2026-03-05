@@ -26,10 +26,6 @@ typedef struct{
 
 } QuadFormula;
 
-struct error {
-	double alpha;
-	double beta;
-};
 
 #ifdef INTEGRATION_C
 
