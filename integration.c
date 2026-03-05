@@ -6,10 +6,8 @@
 
 bool setQuadFormula(QuadFormula *qf, char *name)
 {
-	bool valid = false;
 	if (!strcmp(name, "left"))
 	{
-		valid = true;
 		strcpy(qf->name, name);
 		qf->n = 0;
 		qf->size_w = 1;
@@ -18,10 +16,10 @@ bool setQuadFormula(QuadFormula *qf, char *name)
 		qf->size_x = 1;
 		qf->x = calloc(1, sizeof(double));
 		qf->x[0] = 0.0;
+		return true;
 	}
 	else if (!strcmp(name, "right"))
 	{
-		valid = true;
 		strcpy(qf->name, name);
 		qf->n = 0;
 		qf->size_w = 1;
@@ -30,10 +28,10 @@ bool setQuadFormula(QuadFormula *qf, char *name)
 		qf->size_x = 1;
 		qf->x = calloc(1, sizeof(double));
 		qf->x[0] = 1;
+		return true;
 	}
 	else if (!strcmp(name, "middle"))
 	{
-		valid = true;
 		strcpy(qf->name, name);
 		qf->n = 0;
 		qf->size_w = 1;
@@ -42,10 +40,10 @@ bool setQuadFormula(QuadFormula *qf, char *name)
 		qf->size_x = 1;
 		qf->x = calloc(1, sizeof(double));
 		qf->x[0] = 0.5;
+		return true;
 	}
 	else if (!strcmp(name, "trapezes"))
 	{
-		valid = true;
 		strcpy(qf->name, name);
 		qf->n = 0;
 		qf->size_w = 2;
@@ -56,10 +54,10 @@ bool setQuadFormula(QuadFormula *qf, char *name)
 		qf->x = calloc(2, sizeof(double));
 		qf->x[0] = 0;
 		qf->x[1] = 1;
+		return true;
 	}
 	else if (!strcmp(name, "simpson"))
 	{
-		valid = true;
 		strcpy(qf->name, name);
 		qf->n = 2;
 		qf->size_w = 3;
@@ -72,10 +70,10 @@ bool setQuadFormula(QuadFormula *qf, char *name)
 		qf->x[0] = 0;
 		qf->x[1] = 0.5;
 		qf->x[2] = 1;
+		return true;
 	}
 	else if (!strcmp(name, "gauss2"))
 	{
-		valid = true;
 		strcpy(qf->name, name);
 		qf->n = 2;
 		qf->size_w = 2;
@@ -86,10 +84,10 @@ bool setQuadFormula(QuadFormula *qf, char *name)
 		qf->x = calloc(2, sizeof(double));
 		qf->x[0] = (double)(1 / 2 - 1 / (2 * sqrt(3)));
 		qf->x[1] = (double)(1 / 2 + 1 / (2 * sqrt(3)));
+		return true;
 	}
 	else if (!strcmp(name, "gauss3"))
 	{
-		valid = true;
 		strcpy(qf->name, name);
 		qf->n = 3;
 		qf->size_w = 3;
@@ -102,8 +100,9 @@ bool setQuadFormula(QuadFormula *qf, char *name)
 		qf->x[0] = (double)1 / 2 * (1 - sqrt(3 / 5));
 		qf->x[1] = (double)1 / 2;
 		qf->x[2] = (double)1 / 2 * (1 + sqrt(3 / 5));
+		return true;
 	}
-	return valid;
+	return false;
 }
 
 /* This function is not required ,but it may useful to debug */
