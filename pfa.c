@@ -82,7 +82,7 @@ double PHI(double x)
 	 */
 double optionPrice(Option *option)
 {
-	double z0 = ( ln(K/S0) - (mu - sig²/2) * T ) / (sig * sqrt(T))
+	double z0 = ( log(option->K/option->S0) - (option->mu - pow(option->sig,2)/2) * option->T ) / (option->sig * sqrt(option->T))
 }
 
 /* ===============================================*/
