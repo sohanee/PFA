@@ -88,15 +88,17 @@ double optionPrice(Option *option)
 	double s0 = option->S0;
 	if (sig <= 0 || t < 0)
 	{
-		if (t == 0)
-		{
-			if (option->type == CALL)
-				return fmax(s0 - k, 0.0);
-			else if (option->type == PUT)
-				return fmax(k - s0, 0.0);
-		}
 		return 0.0;
 	}
+	if (t == 0)
+		{
+			if (option->type == CALL){
+				return fmax(s0 - k, 0.0);
+			}
+			else if (option->type == PUT){
+				return fmax(k - s0, 0.0);
+			}
+		}
 	if (option->type == CALL)
 	{
 		double z = (log(k / s0) - (mu - ((sig * sig) / 2)) * t) / (sig * sqrt(t));
@@ -143,19 +145,7 @@ double clientCDF_X(InsuredClient *client, double x)
 	return PHI((log(x) - m) / s);
 }
 
-/* ==========================================================*/
-/* Distribution of X1+X2 : static intermediate functions     */
 
-/* The static functions localProductPDF and localPDF_X1X2 take only one
-	 argument, of type double.
-	 They hence can be integrated: function integrate_dx takes as argument a function pointer f,
-	 where f depends only on one argument (double t).
-	 The static functions below can be given as argument to integrate_dx.
-
-	 That's why we copy other variables of the final functions (client and x) to local static variables,
-	 and define these static functions depending on only one argument (double t).
-	 These local functions can hence be arguments of integrate_dx.
-	 */
 static InsuredClient *localClient;
 static double localX;
 
@@ -173,11 +163,9 @@ static double localProductPDF(double t)
 	 It is called by clientPDF_X1X2
 	 It can also be an argument of integrate_dx (since it has the good signature)
 	 */
-	// A FAIRE 
 static double localPDF_X1X2(double x)
 {
 	localX = x;
-
 	return integrate_dx(localProductPDF, 0, x, pfa_dt, &pfaQF);
 }
 
@@ -192,7 +180,6 @@ double clientPDF_X1X2(InsuredClient *client, double x)
 {
 	if (x <= 0)
 		return 0.0;
-
 	localClient = client;
 	return localPDF_X1X2(x);
 }
@@ -201,30 +188,25 @@ double clientPDF_X1X2(InsuredClient *client, double x)
 	 X1 and X2 are the reimbursements of the two claims from the client (assuming there are
 	 two claims).
 	 */
-		// A FAIRE 
 double clientCDF_X1X2(InsuredClient *client, double x)
 {
 	localClient = client;
-
 	return integrate_dx(localPDF_X1X2, 0, x, pfa_dt, &pfaQF);
 }
 
 /* Cumulative distribution function (CDF) of variable S.
 	 Variable S is the sum of the reimbursements that the insurance company will pay to client.
 	 */
-		// A FAIRE 
 double clientCDF_S(InsuredClient *client, double x)
 {
 	if (x < 0)
 	{
 		return 0;
 	}
-	else if (x == 0)
-	{
-		return client->p[0];
+	else if (x == 0){
+		return (client->p)[0];
 	}
-	else
-	{
+	else{
 		double *p = client->p;
 		return p[0] + p[1] * clientCDF_X(client, x) + p[2] * clientCDF_X1X2(client, x);
 	}
